@@ -1,5 +1,5 @@
 package mesapool;
 
-public class Pelota {
-
+public class Pelota extends RigidBody{
+    
 }
