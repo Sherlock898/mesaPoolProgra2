@@ -7,8 +7,8 @@ import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-    
-@SuppressWarnings("serial")
+ 
+@SuppressWarnings("serial"   )
 public class GameManager extends JPanel {
     Superficie s;
     RigidBody rb;

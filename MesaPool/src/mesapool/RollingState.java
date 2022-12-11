@@ -23,12 +23,17 @@ public class RollingState extends State{
         vcos = Math.cos(vAngle);
         vsin = Math.sin(vAngle);
         
-        w = new Vector3( -(1/r) * v.magnitude() * vsin, -(1/r) * v.magnitude() * vcos, w0.z - (t * 5 * rb.usp * GameObject.g)/(2*r));
+        w = new Vector3( -(1/r) * v.magnitude() * vsin, -(1/r) * v.magnitude() * vcos, Math.max(0, w0.z - (t * 5 * rb.usp * GameObject.g)/(2*r)));
         rb.setAngularVel(w);
         
         x = new Vector3(x0.x + v0.x*t - (1/2)*rb.ur*GameObject.g*vcos*t*t, x0.y + v0.y*t - (1/2)*rb.ur*GameObject.g*vsin*t*t, 0);
         rb.setPos(x);
         
+    }
+
+    @Override
+    public double validity() {
+        return (rb.getIVel().magnitude()/(rb.ur*GameObject.g));
     }
     
 }

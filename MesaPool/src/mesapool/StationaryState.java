@@ -8,4 +8,9 @@ public class StationaryState extends State{
         rb.setAngularVel(Vector3.zero);
         rb.setPos(rb.getPos());
     }
+
+    @Override
+    public double validity() {
+        return -1;
+    }
 }

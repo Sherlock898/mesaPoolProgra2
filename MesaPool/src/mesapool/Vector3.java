@@ -19,6 +19,10 @@ public class Vector3 {
         return new Vector3(a.x * c, a.y * c, a.z * c);
     }
     
+    public static Vector3 cross(Vector3 u, Vector3 v){
+        return new Vector3(u.y*v.z - u.z*v.y, u.z*v.x - u.x*v.z, u.x*v.y - u.y*v.x);
+    }
+    
     public Vector3(double x, double y, double z){
         this.x = x;
         this.y = y;

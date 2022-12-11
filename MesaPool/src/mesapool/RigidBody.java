@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class RigidBody extends GameObject{
+    
+    private State state;
+    
     //Radio y masa
     private double r;
     private float mass;
@@ -13,6 +16,7 @@ public class RigidBody extends GameObject{
     //Velocidad
     private Vector3 v;    //Velocidad instantanea
     private Vector3 v0;   //Velocidad Inicial (al cambiar de estado(?)
+    private Vector3 rv0; //Velocidad Relativa inicial al cambiar de estado
     
     //Velocidad angular
     private Vector3 w;   
@@ -24,6 +28,7 @@ public class RigidBody extends GameObject{
     protected float ur;
     
     //El tiempo que ha pasado en un estado
+    private double tGlobal;
     private double t;
     
     public RigidBody(double x, double y, double r, float mass, Superficie superficie){
@@ -33,12 +38,17 @@ public class RigidBody extends GameObject{
         
         v = Vector3.zero;
         v0 = Vector3.zero; 
+        rv0 = Vector3.zero;
         w = Vector3.zero;
         w0 = Vector3.zero; 
         
         usp = superficie.getUsp();
         ur = superficie.getUr();
         us = superficie.getUs();
+    }
+     
+    public void update(double t){
+        this.state.update(t);
     }
     
     public double getMass(){
@@ -74,6 +84,14 @@ public class RigidBody extends GameObject{
         return w0;
     }
     
+    public Vector3 getIrv(){
+        return rv0;
+    }
+    
+    public void setState(State state){
+        this.state = state;
+    }
+    
     @Override
     public void setPos(Vector3 pos){
         super.setPos(pos);
@@ -95,6 +113,10 @@ public class RigidBody extends GameObject{
         this.v0 = v0;
     }
     
+    public void setIrv(Vector3 rv0){
+        this.rv0 = rv0;
+    }
+    
     public void setIAngularVel(Vector3 w0){
         this.w0 = w0;
     }
@@ -104,4 +126,6 @@ public class RigidBody extends GameObject{
         System.out.println(" " + r);
         g.fillOval((int)((this.getPos().x - (r/2))), (int)(this.getPos().y), (int)(r * 1000), (int)(r * 1000));
     }
+    
+
 }
