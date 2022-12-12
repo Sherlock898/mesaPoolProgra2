@@ -2,11 +2,15 @@ package mesapool;
 
 public class SlidingState extends State {
 
+    public SlidingState(RigidBody rb){
+        super(rb);
+    }
+    
     @Override
     public void update(double t) {
         double vAngle, vcos, vsin;
         double r = rb.getR();
-        Vector3 v, w, x;
+        Vector3 v, w, x, rv;
         Vector3 v0 = rb.getIVel();
         Vector3 rv0 = rb.getIrv();
         Vector3 w0 = rb.getIAngularVel();
@@ -39,6 +43,9 @@ public class SlidingState extends State {
             0
         );
         
+        rv = Vector3.add(v, Vector3.cross(Vector3.mult(new Vector3(0, 0, 1), r), w));
+        
+        rb.setRVel(rv);
         rb.setVel(v);
         rb.setAngularVel(w);
         rb.setPos(x);
