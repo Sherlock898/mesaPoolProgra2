@@ -11,11 +11,12 @@ public class Pelota {
     protected Vector2 position;
     protected Vector2 velocity;
     protected double friccion = 0.11;
-    protected double r = 20;
+    protected double r;
 
     public boolean active;
     
-    public Pelota(Mesa parent, Vector2 position, Color color){
+    public Pelota(Mesa parent, Vector2 position, Color color, double r){
+        this.r = r;
         this.parent = parent;
         this.color = color;
         //this.position = Vector2.add(position, parent.getPosition());
@@ -23,7 +24,7 @@ public class Pelota {
         this.parentSize = parent.getSize();
         this.parentPos = parent.getPosition();
         this.velocity = new Vector2(0, 0);
-        this.active = true;
+        this.active = false;
     }
     
     public void update(){
@@ -65,6 +66,12 @@ public class Pelota {
         //System.out.println("x:" + position.x + " y:" + position.y);
     }
     
+    
+    public void setPosition(Vector2 position){
+        this.position.x = position.x;
+        this.position.y = position.y;
+    }
+    
     public void paint(Graphics g){
         g.setColor(color);
         g.fillOval((int)(position.x + parentPos.x - r), (int)(position.y + parentPos.y - r), (int)(2*r), (int)(2*r));
@@ -79,13 +86,15 @@ public class Pelota {
         return false;
     }
 
-    public void checkCollition(Pelota other){
+    public boolean checkCollition(Pelota other){
         if(Vector2.dist(this.position, other.position) <= 2*r){
             
             //separarPelotasEnColision(other);
             resolveCollition(other);
             //separarPelotasEnColision(other);
+            return true;
         }
+        return false;
     }
     
     public void separarPelotasEnColision(Pelota other){

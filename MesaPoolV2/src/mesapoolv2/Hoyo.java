@@ -18,6 +18,6 @@ public class Hoyo {
     }
 
     public void paint(Graphics g){
-        g.fillOval((int)(position.x - r), (int)(position.y - r), (int)(2*r), (int)(2*r));
+        g.fillOval((int)(position.x + parent.getPosition().x - r), (int)(position.y + parent.getPosition().y - r), (int)(2*r), (int)(2*r));
     }
 }

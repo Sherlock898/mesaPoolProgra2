@@ -7,19 +7,30 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.util.ArrayList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
 public class PanelPrincipal extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
 
+    
     private ArrayList<Pelota> pelotas;
-    Vector2 mousePosition;
-    boolean shooting;
-    Pelota player;
-    Mesa mesa;
+    private Vector2 mousePosition;
+    private boolean shooting;
+    private Pelota player;
+    private Mesa mesa;
+    private Sfx ballHit_sfx;
+    private Sfx ballTroneracion_sfx;
+    private final double radio_pelotas = 15;
     
     
     public PanelPrincipal(){
+        
+        ballHit_sfx = new Sfx("ballballhit1");
+        ballTroneracion_sfx = new Sfx("troneriassfx");
         shooting = false;
         FPS.calcBeginTime();
         this.addMouseListener(this);
@@ -28,21 +39,39 @@ public class PanelPrincipal extends JPanel implements ActionListener, MouseListe
         mesa = new Mesa();
 
         pelotas = new ArrayList<Pelota>();
-        player = new Pelota(mesa, new Vector2(100, 100), Color.WHITE);
-        Pelota p1 = new Pelota(mesa, new Vector2(1000, 10), Color.RED);
-        Pelota p2 = new Pelota(mesa, new Vector2(500, 500), Color.RED);
-        Pelota p3 = new Pelota(mesa, new Vector2(50, 500), Color.RED);
-        Pelota p4 = new Pelota(mesa, new Vector2(500, 50), Color.RED);
-        Pelota p5 = new Pelota(mesa, new Vector2(50, 50), Color.RED);
+        player = new Pelota(mesa, new Vector2(100, 100), Color.WHITE, radio_pelotas);
         
-        pelotas.add(player);
-        pelotas.add(p1);
-        pelotas.add(p2);
-        pelotas.add(p3);
-        pelotas.add(p4);
-        pelotas.add(p5);
+        pelotas.add(player); 
+        for(int i = 0; i < 15; i++){
+            pelotas.add(new Pelota(mesa, new Vector2(0, 0), Color.RED, radio_pelotas));
+        }
+        SetearMesa(15);
 
 
+    }
+    
+    private void SetearMesa(int nPelotas){
+        pelotas.get(1).setPosition(new Vector2(mesa.getSize().x*3/4, mesa.getSize().y/2));
+        pelotas.get(2).setPosition(new Vector2(mesa.getSize().x*3/4, mesa.getSize().y/2 - 2*radio_pelotas - 1));
+        pelotas.get(3).setPosition(new Vector2(mesa.getSize().x*3/4, mesa.getSize().y/2 + 2*radio_pelotas + 1));
+        pelotas.get(4).setPosition(new Vector2(mesa.getSize().x*3/4 + 2*radio_pelotas + 1, mesa.getSize().y/2 + 2*radio_pelotas/2 + 2));
+        pelotas.get(5).setPosition(new Vector2(mesa.getSize().x*3/4 + 2*radio_pelotas + 1, mesa.getSize().y/2 - 2*radio_pelotas/2 - 2));
+        pelotas.get(6).setPosition(new Vector2(mesa.getSize().x*3/4 - 2*radio_pelotas - 1, mesa.getSize().y/2 + 2*radio_pelotas/2 + 2));
+        pelotas.get(7).setPosition(new Vector2(mesa.getSize().x*3/4 - 2*radio_pelotas - 1, mesa.getSize().y/2 - 2*radio_pelotas/2 - 2));
+        pelotas.get(8).setPosition(new Vector2(mesa.getSize().x*3/4 + 2*radio_pelotas + 1, mesa.getSize().y/2 + (7/2)*radio_pelotas + 3));
+        pelotas.get(9).setPosition(new Vector2(mesa.getSize().x*3/4 + 2*radio_pelotas + 1, mesa.getSize().y/2 - (7/2)*radio_pelotas - 3));
+        pelotas.get(10).setPosition(new Vector2(mesa.getSize().x*3/4 + 4*radio_pelotas + 2, mesa.getSize().y/2));
+        pelotas.get(11).setPosition(new Vector2(mesa.getSize().x*3/4 + 4*radio_pelotas + 2, mesa.getSize().y/2 - 2*radio_pelotas - 1));
+        pelotas.get(12).setPosition(new Vector2(mesa.getSize().x*3/4 + 4*radio_pelotas + 2, mesa.getSize().y/2 + 2*radio_pelotas + 1));
+        pelotas.get(13).setPosition(new Vector2(mesa.getSize().x*3/4 + 4*radio_pelotas + 2, mesa.getSize().y/2 - 4*radio_pelotas - 2));
+        pelotas.get(14).setPosition(new Vector2(mesa.getSize().x*3/4 + 4*radio_pelotas + 2, mesa.getSize().y/2 + 4*radio_pelotas + 2));
+        pelotas.get(15).setPosition(new Vector2(mesa.getSize().x*3/4 - 4*radio_pelotas - 2, mesa.getSize().y/2));
+        
+        
+        for(int i = 0; i < nPelotas + 1; i++){
+            pelotas.get(i).active = true;
+        }
+        
     }
     
     @Override
@@ -142,11 +171,14 @@ public class PanelPrincipal extends JPanel implements ActionListener, MouseListe
                 if(j == i || !pelotas.get(j).active){
                     continue;
                 }
-                pelotas.get(i).checkCollition(pelotas.get(j));
+                if(pelotas.get(i).checkCollition(pelotas.get(j))){
+                    ballHit_sfx.play();
+                }
             }
             for(int j = 0; j < mesa.hoyos.size(); j++){
                 if(pelotas.get(i).checkTroneria(mesa.hoyos.get(j))){
                     pelotas.get(i).active = false;
+                    ballTroneracion_sfx.play();
                 }
             }
             if(pelotas.get(i).active){
