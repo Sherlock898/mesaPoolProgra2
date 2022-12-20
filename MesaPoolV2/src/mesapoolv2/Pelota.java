@@ -5,34 +5,44 @@ import java.awt.Graphics;
 
 public class Pelota {
     private Color color;
+    private Mesa parent;
+    private Vector2 parentSize;
+    private Vector2 parentPos;
     protected Vector2 position;
     protected Vector2 velocity;
     protected double friccion = 0.11;
     protected double r = 20;
+
+    public boolean active;
     
-    public Pelota(Vector2 position, Vector2 velocity, Color color){
+    public Pelota(Mesa parent, Vector2 position, Color color){
+        this.parent = parent;
         this.color = color;
+        //this.position = Vector2.add(position, parent.getPosition());
         this.position = position;
-        this.velocity = velocity;
+        this.parentSize = parent.getSize();
+        this.parentPos = parent.getPosition();
+        this.velocity = new Vector2(0, 0);
+        this.active = true;
     }
     
     public void update(){
 
-        
-        if(position.x > 1280 - (int)(r)){
-            position.x = 1280 - (int)(r);
-            velocity.x = - velocity.x;
+        //Colision con la mesa
+        if(position.x > parentSize.x - (int)(r) - parent.getBordeWidth()){
+            position.x = parentSize.x - (int)(r) - parent.getBordeWidth();
+            velocity.x = - velocity.x; 
         }
-        if(position.y > 720 - (int)(r)){
-            position.y = 720 - (int)(r);
+        if(position.y > parentSize.y - (int)(r) - parent.getBordeWidth()){
+            position.y = parentSize.y - (int)(r) - parent.getBordeWidth();
             velocity.y = - velocity.y;
         }
-        if(position.x < 0 + (int)(r)){
-            position.x = 0 + (int)(r);
+        if(position.x < 0 + (int)(r) + parent.getBordeWidth()){
+            position.x = 0 + (int)(r) + parent.getBordeWidth();
             velocity.x = - velocity.x;
         }
-        if(position.y < 0 + (int)(r)){
-            position.y = 0 + (int)(r);
+        if(position.y < 0 + (int)(r) + parent.getBordeWidth()){
+            position.y = 0 + (int)(r) + parent.getBordeWidth();
             velocity.y = - velocity.y;
         }
         
@@ -57,10 +67,18 @@ public class Pelota {
     
     public void paint(Graphics g){
         g.setColor(color);
-        g.fillOval((int)(position.x - r), (int)(position.y - r), (int)(2*r), (int)(2*r));
+        g.fillOval((int)(position.x + parentPos.x - r), (int)(position.y + parentPos.y - r), (int)(2*r), (int)(2*r));
         
     }
     
+    public boolean checkTroneria(Hoyo hoyo){
+        if(Vector2.dist(position, hoyo.getPosition()) < 2*r){
+            System.out.println("Aa");
+            return true;
+        }
+        return false;
+    }
+
     public void checkCollition(Pelota other){
         if(Vector2.dist(this.position, other.position) <= 2*r){
             
@@ -102,5 +120,9 @@ public class Pelota {
     
     public void setColor(Color color){
         this.color = color;
+    }
+
+    public Vector2 getGlobalPosition(){
+        return Vector2.copy(Vector2.add(position, parentPos));
     }
 }

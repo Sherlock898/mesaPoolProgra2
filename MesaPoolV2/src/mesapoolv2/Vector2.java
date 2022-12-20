@@ -43,6 +43,15 @@ public class Vector2 {
     public static Vector2 add(Vector2 v, Vector2 u){
         return new Vector2(v.x + u.x, v.y + u.y);
     }
+
+    /**
+     * Creates a new vector, usefull when you want to get read only parameters
+     * @param v vector 2
+     * @return a new vector2 with the values of v
+     */
+    public static Vector2 copy(Vector2 v){
+        return new Vector2(v.x, v.y);
+    }
     
     /**
      * Substracts two vectors
