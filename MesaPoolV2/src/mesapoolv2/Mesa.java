@@ -7,13 +7,14 @@ import java.util.ArrayList;
 public class Mesa {
     private Vector2 position;
     private Vector2 size;
-    public ArrayList<Hoyo> hoyos;  
+    private ArrayList<Hoyo> hoyos;  
     
     private final int radioTronera = 25;
     private double paredWidth = 30;
 
     public Mesa(){
-        size = new Vector2(0.68 * Ventana.w, 0.6 * Ventana.h);
+        //size = new Vector2(0.68 * Ventana.w, 0.6 * Ventana.h);
+        size = new Vector2(0.85 * Ventana.w, 0.8 * Ventana.h);
         
         position = new Vector2(0.0625 * Ventana.w, Ventana.h - size.y - (Ventana.h - size.y)/2);
 
@@ -51,5 +52,9 @@ public class Mesa {
 
     public double getBordeWidth(){
         return paredWidth;
+    }
+    
+    public ArrayList<Hoyo> getHoyos(){
+        return hoyos;
     }
 }

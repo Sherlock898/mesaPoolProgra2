@@ -1,4 +1,4 @@
-package mesapoolv2;
+    package mesapoolv2;
 
 /**
  * All purpose 2d vector class
@@ -32,6 +32,14 @@ public class Vector2 {
     public void normalize(){
         x = x/magnitude();
         y = y/magnitude();
+    }
+    
+    /**
+     * Calcules the normalized vector of a vector
+     * @return normalized vector 
+     */
+    public Vector2 normalized(){
+        return new Vector2(x/magnitude(), y/magnitude());
     }
     
     /**

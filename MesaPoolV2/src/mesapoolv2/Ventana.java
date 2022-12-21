@@ -9,7 +9,7 @@ public class Ventana extends JFrame {
         JFrame frame = new JFrame ("Mesa de pull");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.add(new PanelPrincipal());
+        frame.add(GameManager.getGameManager());
         frame.setSize(w, h);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
