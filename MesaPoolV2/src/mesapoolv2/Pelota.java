@@ -16,7 +16,7 @@ public class Pelota {
     private Vector2 velocity;
     private double friccion = 0.11;
     private double r;
-    
+        
     public int id;
     public boolean active;
     
@@ -25,6 +25,7 @@ public class Pelota {
         this.r = r;
         this.parent = parent;
         this.color = color;
+        this.position = new Vector2(0, 0);
         this.position = new Vector2(0, 0);
         this.parentSize = parent.getSize();
         this.parentPos = parent.getPosition();

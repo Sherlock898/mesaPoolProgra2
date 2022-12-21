@@ -327,7 +327,6 @@ public class GameManager extends JPanel implements ActionListener, MouseListener
         }
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
     public static GameManager getGameManager(){
         if(instance == null){
             instance = new GameManager(); 
