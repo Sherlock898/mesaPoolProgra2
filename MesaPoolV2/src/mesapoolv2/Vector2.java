@@ -35,6 +35,14 @@ public class Vector2 {
     }
     
     /**
+     * Calcules the normalized vector of a vector
+     * @return normalized vector 
+     */
+    public Vector2 normalized(){
+        return new Vector2(x/magnitude(), y/magnitude());
+    }
+    
+    /**
      * Sums two vectors
      * @param v vector 2
      * @param u vector 2

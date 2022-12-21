@@ -13,7 +13,8 @@ public class Mesa {
     private double paredWidth = 30;
 
     public Mesa(){
-        size = new Vector2(0.68 * Ventana.w, 0.6 * Ventana.h);
+        //size = new Vector2(0.68 * Ventana.w, 0.6 * Ventana.h);
+        size = new Vector2(0.85 * Ventana.w, 0.8 * Ventana.h);
         
         position = new Vector2(0.0625 * Ventana.w, Ventana.h - size.y - (Ventana.h - size.y)/2);
 
